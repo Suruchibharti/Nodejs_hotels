@@ -1,9 +1,12 @@
 const express = require('express')
 const app = express()
 const db = require('./db');
+require('dotenv').config();
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); //js object me convert karne ke baad store karega req.body me and ham directly use karenge
+
+const PORT = process.env.PORT || 3000;
 
 const Person = require('./models/Person');
 
@@ -17,7 +20,7 @@ const personRoutes = require('./routes/personRoutes');
 //Use the routers
 app.use('/person', personRoutes);
 
-app.listen(3000 , ()=>{
+app.listen(PORT , ()=>{
    console.log("we are listing on port 3000")
 })
 
