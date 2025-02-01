@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 
 //1.Define the MongoDB connection URL for local , but not use .env file 
 // const mongoURL= 'mongodb://localhost:27017/hotels'
 //2.Define the MongoDb connection URL for local but uses .env file
-//const mongoURL = process.env.MONGODB_URL_LOCAL;
+const mongoURL = process.env.MONGODB_URL_LOCAL;
 
 //connect with online mongodb atlas
-const mongoURL = process.env.MONGODB_URL
+// const mongoURL = process.env.MONGODB_URL
 
 //set up MongoDB connection
 mongoose.connect(mongoURL,{

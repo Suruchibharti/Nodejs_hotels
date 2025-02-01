@@ -2,15 +2,26 @@ const express = require('express')
 const app = express()
 const db = require('./db');
 require('dotenv').config();
+const passport = require('./auth');
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.json()); //js object me convert karne ke baad store karega req.body me and ham directly use karenge
+app.use(bodyParser.json()); //js object me convert karne ke baad, store karega req.body me and ham directly use karenge
 
 const PORT = process.env.PORT || 3000;
 
 const Person = require('./models/Person');
 
-app.get('/', function (req, res) {
+//Middleware Function
+const logRequest = (req,res,next) => {
+  console.log(`[${new Date().toLocalString}]Request Made to : ${req.originalUrl}`)
+  next(); //Move on to the next phase
+}
+app.use(logRequest);
+
+app.use(passport.initialize());
+const localAuthMiddleware = passport.authenticate('local', {session: false})
+
+app.get('/',localAuthMiddleware, (req, res) =>{
   res.send('Welcome to my Restaurant')
 })
 
@@ -18,7 +29,7 @@ app.get('/', function (req, res) {
 const personRoutes = require('./routes/personRoutes');
 
 //Use the routers
-app.use('/person', personRoutes);
+app.use('/person',localAuthMiddleware, personRoutes);
 
 app.listen(PORT , ()=>{
    console.log("we are listing on port 3000")
