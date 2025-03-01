@@ -29,7 +29,7 @@ app.get('/',localAuthMiddleware, (req, res) =>{
 const personRoutes = require('./routes/personRoutes');
 
 //Use the routers
-app.use('/person',localAuthMiddleware, personRoutes);
+app.use('/person', personRoutes);
 
 app.listen(PORT , ()=>{
    console.log("we are listing on port 3000")
